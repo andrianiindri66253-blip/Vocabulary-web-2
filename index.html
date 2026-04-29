@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary Web</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+:root {
+    --bg: #f5f5f5;
+    --card: #ffffff;
+    --text: #222;
+    --subtext: #666;
+    --primary: #ca6602;
+    --choice: #eeeeee;
+}
+
+body.dark {
+    --bg: #121212;
+    --card: #1f1f1f;
+    --text: #ffffff;
+    --subtext: #bbbbbb;
+    --primary: #ff9d3f;
+    --choice: #2f2f2f;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    transition: 0.3s;
+}
+
+/* NAVBAR */
+nav {
+    width: 100%;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    backdrop-filter: blur(10px);
+    align-items: center;
+    background: var(--card);
+    box-shadow: 0 20px 10px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.dark-toggle {
+    width: auto;
+    padding: 10px 16px;
+    margin: 0;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* HERO */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 40px 40px;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    gap: 50px;
+}
+
+.left {
+    flex: 1;
+}
+
+.left h1 {
+    font-size: 52px;
+    margin-bottom: 20px;
+}
+
+.left p {
+    color: var(--subtext);
+    font-size: 18px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.start-btn {
+    padding: 15px 28px;
+    border: none;
+    border-radius: 14px;
+    background: var(--primary);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.start-btn:hover {
+    transform: scale(1.05);
+}
+
+.right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.right img {
+    width: 320px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0); }
+}
+
+/* APP SECTION */
+.app {
+    display: none;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 80px;
+    background: var(--card);
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.app h2 {
+    margin-bottom: 20px;
+}
+
+.list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.list div {
+    padding: 12px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: var(--primary);
+    color: white;
+    font-weight: bold;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: scale(1.02);
+}
+
+.choice {
+    background: var(--choice);
+    color: var(--text);
+}
+
+.choice:hover {
+    background: var(--primary);
+    color: white;
+}
+
+#word {
+    font-size: 34px;
+    margin: 20px 0;
+}
+
+#progress {
+    color: var(--subtext);
+}
+
+#finalScore {
+    font-size: 32px;
+    margin: 20px 0;
+    color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .left h1 {
+        font-size: 40px;
+    }
+
+    .right img {
+        width: 220px;
+    }
+
+    nav {
+        padding: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">Vocabulary Web</div>
+    <button class="dark-toggle" id="modeBtn" onclick="toggleDarkMode()">
+    🌙</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="heroSection">
+    <div class="hero-content">
+
+        <div class="left">
+            <h1>ENGLISH TIME!!</h1>
+            <p>
+                Untuk Shafira Rahma Aulia, Semangat belajar!!
+                
+                Kalo ada Kosakata baru yang pengen ditambahin lapor ke kakak yeah:>
+            </p>
+
+            <button class="start-btn" onclick="startApp()">
+                Mulai Belajar
+            </button>
+        </div>
+
+        <div class="right">
+            <img src="mentahan web 1.jpg">
+        </div>
+
+    </div>
+</section>
+
+<!-- APP -->
+<div class="app" id="appSection">
+
+    <!-- LEARN -->
+    <div id="learn">
+        <h2>Kata-kata Hari Ini</h2>
+        <div class="list" id="list"></div>
+        <button onclick="startQuiz()">Mulai Kuis</button>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quiz" style="display:none;">
+        <div id="progress"></div>
+        <div id="word"></div>
+        <div id="choices"></div>
+        <div id="result"></div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="resultPage" style="display:none; text-align:center;">
+        <h2>🏁 Hasil Kamu</h2>
+        <div id="finalScore"></div>
+
+        <button onclick="newSet()">Kosakata Baru</button>
+        <button onclick="repeatSet()">Ulangi Kosakata</button>
+    </div>
+
+</div>
+
+<script>
+
+const vocabDB = [
+    {en:"apple", id:"apel"},
+    {en:"book", id:"buku"},
+    {en:"cat", id:"kucing"},
+    {en:"dog", id:"anjing"},
+    {en:"water", id:"air"},
+    {en:"house", id:"rumah"},
+    {en:"school", id:"sekolah"},
+    {en:"teacher", id:"guru"},
+    {en:"student", id:"siswa"},
+    {en:"food", id:"makanan"},
+    {en:"car", id:"mobil"},
+    {en:"tree", id:"pohon"},
+    {en:"sun", id:"matahari"},
+    {en:"moon", id:"bulan"},
+    {en:"river", id:"sungai"},
+    {en:"chair", id:"kursi"},
+    {en:"table", id:"meja"},
+    {en:"door", id:"pintu"},
+    {en:"window", id:"jendela"},
+    {en:"phone", id:"telepon"},
+    {en:"computer", id:"komputer"},
+    {en:"time", id:"waktu"},
+    {en:"day", id:"hari"},
+    {en:"night", id:"malam"},
+    {en:"friend", id:"teman"},
+    {en:"family", id:"keluarga"},
+    {en:"city", id:"kota"},
+    {en:"country", id:"negara"},
+    {en:"market", id:"pasar"},
+    {en:"money", id:"uang"}
+];
+
+let selected = [];
+let usedWords = [];
+let current;
+let index = 0;
+let score = 0;
+
+function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+
+    const btn = document.getElementById("modeBtn");
+
+    if (document.body.classList.contains("dark")) {
+        btn.innerHTML = "☀️";
+    } else {
+        btn.innerHTML = "🌙";
+    }
+}
+
+function startApp() {
+    document.getElementById("heroSection").style.display = "none";
+    document.getElementById("appSection").style.display = "block";
+}
+
+function pick() {
+    let available = vocabDB.filter(v =>
+        !usedWords.some(u => u.en === v.en)
+    );
+
+    if (available.length < 10) {
+        usedWords = [];
+        available = [...vocabDB];
+    }
+
+    selected = available
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 10);
+
+    usedWords.push(...selected);
+}
+
+function showList() {
+    let html = "";
+
+    selected.forEach(v => {
+        html += `<div><b>${v.en}</b> = ${v.id}</div>`;
+    });
+
+    document.getElementById("list").innerHTML = html;
+}
+
+function startQuiz() {
+    document.getElementById("learn").style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+
+    index = 0;
+    score = 0;
+
+    nextQuestion();
+}
+
+function shuffle(arr) {
+    return arr.sort(() => Math.random() - 0.5);
+}
+
+function nextQuestion() {
+
+    if (index >= 10) {
+        showResult();
+        return;
+    }
+
+    document.getElementById("result").innerText = "";
+
+    current = selected[index];
+
+    document.getElementById("progress").innerText =
+        `Soal ${index+1} / 10`;
+
+    document.getElementById("word").innerText = current.en;
+
+    let options = [current.id];
+
+    while (options.length < 4) {
+        let rand = selected[Math.floor(Math.random() * selected.length)].id;
+
+        if (!options.includes(rand)) {
+            options.push(rand);
+        }
+    }
+
+    options = shuffle(options);
+
+    let html = "";
+
+    options.forEach(opt => {
+        html += `<button class="choice" onclick="answer('${opt}')">${opt}</button>`;
+    });
+
+    document.getElementById("choices").innerHTML = html;
+}
+
+function answer(ans) {
+
+    if (ans === current.id) {
+        score++;
+        document.getElementById("result").innerText = "✅ Benar!";
+    } else {
+        document.getElementById("result").innerText =
+            `❌ Jawaban: ${current.id}`;
+    }
+
+    index++;
+
+    setTimeout(nextQuestion, 800);
+}
+
+function showResult() {
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("resultPage").style.display = "block";
+
+    document.getElementById("finalScore").innerText =
+        `${score} / 10`;
+}
+
+function repeatSet() {
+    document.getElementById("resultPage").style.display = "none";
+    document.getElementById("learn").style.display = "block";
+    showList();
+}
+
+function newSet() {
+    document.getElementById("resultPage").style.display = "none";
+    document.getElementById("learn").style.display = "block";
+
+    pick();
+    showList();
+}
+
+pick();
+showList();
+
+</script>
+
+</body>
+</html>
