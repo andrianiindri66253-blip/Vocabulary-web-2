@@ -37,7 +37,6 @@ body {
     transition: 0.3s;
 }
 
-/* NAVBAR */
 nav {
     width: 100%;
     padding: 15px 30px;
@@ -71,7 +70,6 @@ nav {
     font-weight: bold;
 }
 
-/* HERO */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -137,7 +135,6 @@ nav {
     100% { transform: translateY(0); }
 }
 
-/* APP SECTION */
 .app {
     display: none;
     max-width: 1000px;
@@ -228,14 +225,12 @@ button:hover {
 
 <body>
 
-<!-- NAVBAR -->
 <nav>
     <div class="logo">Vocabulary Web</div>
     <button class="dark-toggle" id="modeBtn" onclick="toggleDarkMode()">
     🌙</button>
 </nav>
 
-<!-- HERO -->
 <section class="hero" id="heroSection">
     <div class="hero-content">
 
@@ -257,17 +252,14 @@ button:hover {
     </div>
 </section>
 
-<!-- APP -->
 <div class="app" id="appSection">
 
-    <!-- LEARN -->
     <div id="learn">
         <h2>Kata-kata Hari Ini</h2>
         <div class="list" id="list"></div>
         <button onclick="startQuiz()">Mulai Kuis</button>
     </div>
 
-    <!-- QUIZ -->
     <div id="quiz" style="display:none;">
         <div id="progress"></div>
         <div id="word"></div>
@@ -275,7 +267,6 @@ button:hover {
         <div id="result"></div>
     </div>
 
-    <!-- RESULT -->
     <div id="resultPage" style="display:none; text-align:center;">
         <h2>🏁 Hasil Kamu</h2>
         <div id="finalScore"></div>
